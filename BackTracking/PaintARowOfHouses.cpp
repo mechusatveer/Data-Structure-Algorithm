@@ -95,3 +95,4 @@ bool PaintHouse(House arr[], int n, int k)
    }
    
    return true;
+}
