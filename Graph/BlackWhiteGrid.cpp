@@ -77,25 +77,26 @@ int BlackWriteReverse(vector<string> board)
   memset(step, 0, sizeof(step));
   while (!Q.empty())
   {
-  int now = Q.front();
-  Q.pop();
-  if (now == END) {
-  return step[now];
-  }
-  for (int x = 0; x < 4;x++)
-  {
-  for (int y = 0; y < 5;y++)
-  {
-  int state = Click(x, y, now);
-   
-  if (!visited[state])
-  {
-  visited[state] = 1;
-  step[state] = step[now] + 1;
-  Q.push(state);
-  }
-  }
-  }
+     int now = Q.front();
+     Q.pop();
+     if (now == END)
+     {
+         return step[now];
+     }
+     for (int x = 0; x < 4;x++)
+     {
+           for (int y = 0; y < 5;y++)
+           {
+                int state = Click(x, y, now);
+                 
+                if (!visited[state])
+                {
+                    visited[state] = 1;
+                    step[state] = step[now] + 1;
+                    Q.push(state);
+                }
+           }
+     }
   }
   return 0;
 }
