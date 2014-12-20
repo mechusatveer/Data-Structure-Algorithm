@@ -12,3 +12,86 @@ different dimensions and hence cost of painting in each colour is different, and
 for each house also varies.
 
 */
+
+struct ColorCostPair
+{
+   int cIndex;
+   int cost;
+}
+struct House
+{
+   int colorIndex;
+   vector<ColorCostPair> cost;  //cost of paint corresponding to k colors
+};
+
+class Compare
+{
+   public:
+   bool operator()(ColorCostPair &p1, ColorCostPair &p2)
+   {
+      if(p1.cost <= p2.cost) return true;
+      
+      return false;
+   }
+};
+
+bool PaintHouseUtil(House arr[], int index, int n,int k, int &curr_cost)
+{
+   if(index == n) return true;
+   
+   for(int c = 0; c < k; c++)
+   {
+      if(arr[index-1].cIndex == arr[index].cost[c].colorIndex) continue;
+      
+      arr[index].cIndex = arr[index].cost[c].colorIndex;
+      curr_cost = arr[index].cost[c].cost;
+      if(PaintHouseUtil(arr,index+1,n,k,curr_cost))
+      {
+         return true;
+      }
+      
+      curr_cost = curr_cost - arr[index].cost[c].cost;
+   }
+   
+   return false;
+}
+
+bool PaintHouse(House arr[], int n, int k)
+{
+   //Cannot be painted
+   if(k ==1 && n > 1) return false;
+   
+   //Every house have a sorted vector of cost based
+   for(int i = 0; i < n; i++)
+   {
+      sort(arr[i].cost,arr[i].cost + k,Compare);
+   }
+   
+   int result[n];
+   
+   int min_cost = INT_MAX;
+   int curr_cost = 0;
+   for(int i = 0; i < k; i++)
+   {
+      curr_cost = arr[0].cost[i].cost;
+      arr[0].colorIndex = arr[0].cost[i].cIndex;
+      
+      if(PaintHouseUtil(arr,1,n,k,curr_cost))
+      {
+         if(curr_cost < min_cost)
+         {
+            min_cost = curr_cost;
+            for(int p = 0; p < n; p++)
+            {
+               result[p] = arr[p].cIndex;
+            }
+         }
+      }
+   }
+   
+   for(int i = 0; i < n; i++)
+   {
+      arr[i].cIndex = result[i];
+   }
+   
+   return true;
