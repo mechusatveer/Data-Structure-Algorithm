@@ -27,14 +27,24 @@ bool LargestBST(Node* root, int &max, int &min,int &size,Node **result, int &m_s
        size = 1;
        return true;
     }
-
-    bool f1 = LargestBST(root->left,INT_MAX,min,size,result,m_size);
-    bool f2 = LargestBST(root->right,max,INT_MIN,right_min,size,result,m_size);
+    
+    int size_left = 0;
+    int size_right = 0;
+    
+    int left_max = 0;
+    int right_max = 0;
+    int left_min = 0;
+    int right_min = 0;
+    
+    bool f1 = LargestBST(root->left,left_max,left_min,size_left,result,m_size);
+    bool f2 = LargestBST(root->right,right_max,right_min,right_size,result,m_size);
     
     if(f1 == false || f2 == false)
     {
        return false;
     }
+    
+    if(root->data < left_max || root->data  )
     
     max = Max(max,root->data);
     min = Min(min,root->data);
