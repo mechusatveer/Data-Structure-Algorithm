@@ -11,15 +11,14 @@
    3. post order appraoch
 */
 
-/* In Post order based approach do not forget to write 
-leaf node base case which initizlie min = max = root->data;
-
-finally min = left_min
-        max = right_max
-this min and max will propogate upside
+/* 
+   base case is if root == null max = int_min   min = int_max
+   
+   //root->data used here to handle one child missing case
+   max = Max(right_max,root->data);   for child nodes it makes max = leaf data
+   min = Min(left_min,root->data);                // min = leaf data too
 
 */
-
 #include<iostream>
 
 using namespace std;
@@ -110,7 +109,19 @@ bool InOrderIsBstUtil(Node* root)
   InOrderIsBst(root,lastItem,flag);
   return flag;
 }
+int Max(int i, int j)
+{
+   if(i > j) return i;
 
+   return j;
+}
+
+int Min(int i, int j)
+{
+    if(i < j) return i;
+
+    return j;
+}
 bool PostOrderIsBst(Node* root,int &min, int &max)
 {
    if(root == NULL)
@@ -118,13 +129,6 @@ bool PostOrderIsBst(Node* root,int &min, int &max)
        max = INT_MIN;
        min = INT_MAX;
        return true;
-   }
-
-   if(root->left == NULL && root->right == NULL)
-   {
-      max = root->data;
-      min = root->data;
-      return true;
    }
 
    int left_min = 0;
@@ -140,8 +144,9 @@ bool PostOrderIsBst(Node* root,int &min, int &max)
 
    if(root->data < left_max || root->data > right_min) return false;
 
-   max = right_max;
-   min = left_min;
+   //root->data used here to handle one child missing case
+   max = Max(right_max,root->data);
+   min = Min(left_min,root->data);
    return true;
 }
 bool PostOrderIsBstUtil(Node* root)
@@ -158,14 +163,14 @@ int main()
     Insert(&root,10);
     Insert(&root,5);
     Insert(&root,15);
-    Insert(&root,3);
+    //Insert(&root,3);
     Node* x = Insert(&root,6);
     Node* y = Insert(&root,14);
     Insert(&root,16);
 
     //If you comment these then it be bst
-    //x->data = 11;
-    y->data = 4;
+     x->data = 11;
+    //y->data = 4;
 
     //if(PreOrderIsBstUtil(root))
     //if(InOrderIsBstUtil(root))
