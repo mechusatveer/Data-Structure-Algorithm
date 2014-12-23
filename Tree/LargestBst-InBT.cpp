@@ -60,3 +60,14 @@ bool LargestBST(Node* root, int &max, int &min,int &size,Node **result, int &m_s
         
     return true;
 }
+
+Node* LargestBSTUtil(Node* root)
+{
+    int max = INT_MIN;
+    int min = INT_MAX;
+    Node *result = NULL;
+    int m_size = 0;
+    int size = 0;
+    LargestBST(root,max,min,size,&result,m_size);
+    return result;
+}
