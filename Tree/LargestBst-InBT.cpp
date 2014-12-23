@@ -44,11 +44,19 @@ bool LargestBST(Node* root, int &max, int &min,int &size,Node **result, int &m_s
        return false;
     }
     
-    if(root->data < left_max || root->data  )
+    if(root->data < left_max || root->data  > right_min)
+    return false;
     
-    max = Max(max,root->data);
-    min = Min(min,root->data);
+    size = size_left + size_right + 1;
+    
+    if(size > m_size)
+    {
+        m_size = size;
+        *result = root;
+    }
+    max = Max(right_max,root->data);
+    min = Min(left_min,root->data);
 
         
-
+    return true;
 }
