@@ -41,7 +41,7 @@ bool isBSTUtil(Node* root, int &max, int &min)
      
      if(f1 == false || f2 == false) return false;
      
-     if(root->data < min_left || root->data > max_right)
+     if(root->data < max_left || root->data > min_right)
      return false;
  
      max = Max(root->data,max_right);
