@@ -26,10 +26,18 @@ All words which belong to same hashcode collect in a vector
 we can use here multimap
 
 */
+#include<iostream>
+#include<map>
+#include<vector>
+using namespace std;
 
-int getHash(string str)
+int GetHash(string str)
 {
-    int arr[256] = {-1};
+    int arr[256];
+    for(int i = 0; i < 256; i++)
+    {
+       arr[i] = -1;
+    }
     int code = 0;
     int c = 0;
     for(int i = 0; i < str.size(); i++)
@@ -37,30 +45,44 @@ int getHash(string str)
        if(arr[str[i]] == -1)
        {
           arr[str[i]] = c;
-          code = code*10 + c;
           c++;
        }
+       code = code*10 + arr[str[i]];
     }
     return code;
 }
 
-int main(int argc, char*argv[])
+int main()
 {
-   map<int,vector<string>> mp;
-   
-   for(int i =1; i <= argc; i++)
+   string str[7];
+
+   str[0] = "pop";
+   str[1] = "abba";
+   str[2] = "ccd";
+   str[3] = "xyxyz";
+   str[4] = "wwv";
+   str[5] = "cc";
+   str[6] = "aa";
+
+   map<int,vector<string> > m;
+
+   //do not forget to receuive it in ref else what u make change not reflect inside v
+   for(int i = 0; i < 7; i++)
    {
-       mp[getHash(argv[i])].push_back(argv[i]);
+      vector<string> &v = m[GetHash(str[i])];
+      v.push_back(str[i]);
+
    }
-   
-   map<int,vector<string>>::iteroator it = mp.begin();
-   
-   while(it != mp.end())
+
+   map<int,vector<string> >::iterator it = m.begin();
+
+   while(it != m.end())
    {
-      vector<string> v = it.second;
-      for(int i = 0; i < v.size(); i++)
-      cout<<v[i]<<"  ";
-      cout<<endl;
+       vector<string> v = it->second;
+       it++;
+       for(int i = 0; i < v.size(); i++)
+        cout<<v[i]<<"  ";
+       cout<<endl;
    }
-   
+   return 0;
 }
