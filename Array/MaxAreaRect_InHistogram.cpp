@@ -1,10 +1,22 @@
 /*
     We cannot use stack here
-    We can use queue here 
+    We can use stack/queue here 
     But in palce of queue we can use a array also
     Below problem use array of same size
 */
 
+/* If we use stack here last calc be like this
+Keep counting how mant items we popped yet
+count = 0;
+while(st.empty() == false)
+{
+    int item = st.top();
+    count++;
+    st.pop();
+    max_area = Max(max_area,count*item);
+}
+
+*/
 
 #include<iostream>
 
