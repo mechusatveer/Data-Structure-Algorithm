@@ -102,37 +102,6 @@ int main()
 
 4  
 
-===========================================================================================
-Problem 1 Part 1
-===========================================================================================
-Appraoch 1:-
-============
-int Process(vector<Interval> v)
-{
-    int t = 0;
-    for(int i = 0; i < v.size(); i++)
-    {
-       if(v[i].end >= v[i+1].start) return 0;
-       t++;
-    }
-    return t;
-}
-int ProcessMaxRequest(Intervals arr[], int n, int i, vector<Interval> v, int &tmax)
-{
-   if(i == n)
-   {
-      //You have vector of intervals
-      int t = Process(v);
-      if(t > tmax) tmax = t;
-      return;
-   }
-   v.push_back(arr[i]); //part of
-   ProcessMaxRequest(arr,n,i+1,v);
-                        //not part of
-   ProcessMaxRequest(arr,n,i+1,v);
-}
-
-Approach 2:-
 #include<iostream>
 #include<vector>
 #include<algorithm>
@@ -217,39 +186,6 @@ int main()
     return 0;
 }
 
-
-
-===========================================================================================================
-//Problem 1 Part 2
-============================================================================================================
-Approach 1:- O(n*2^n)
-
-int Process(vector<Interval> v)
-{
-    int t = 0;
-    for(int i = 0; i < v.size(); i++)
-    {
-       if(v[i].end >= v[i+1].start) return 0;
-       
-       t = t + v[i].end - v[i].start + 1;
-    }
-    return t;
-}
-int GetMaxRent(Intervals arr[], int n, int i, vector<Interval> v, int &tmax)
-{
-   if(i == n)
-   {
-      int t = Process(v);
-      if(t > tmax) tmax = t;
-      return;
-   }
-   v.push_back(arr[i]); 
-   GetMaxRent(arr,n,i+1,v);
-   GetMaxRent(arr,n,i+1,v);
-}
-
-Appraoch 2:- O(n^2)
-===================
 #include<iostream>
 #include<vector>
 #include<algorithm>
