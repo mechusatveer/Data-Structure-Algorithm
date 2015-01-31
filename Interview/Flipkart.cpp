@@ -39,3 +39,298 @@ Any doubt drop a mail to me
    So no argument happen there
    and sweets used be less.
 -------------------------------------------------------------------------------------------------------
+
+We cannot use here vector or string or something like that
+we have to allocate our own memory allocation and keep pointing in that only
+like if i use vector results be strange
+
+==============================================================================
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+void function(int arr[], int i, int n,int res[], int x)
+{
+    if(i == n)
+    {
+        for(int j = 0; j < x; j++) cout<<res[j]<<"  ";
+        cout<<endl;
+        return;
+    }
+    
+    res[x] = arr[i];
+    function(arr,i+1,n,res,x+1);
+    function(arr,i+1,n,res,x);
+}
+
+int main()
+{
+    int arr[] = {1,2,3,4};
+    int result[] = {0,0,0,0};
+    function(arr,0,4,result,0);
+    return 0;
+}
+
+1  2  3  4  
+
+1  2  3  
+
+1  2  4  
+
+1  2  
+
+1  3  4  
+
+1  3  
+
+1  4  
+
+1  
+
+2  3  4  
+
+2  3  
+
+2  4  
+
+2  
+
+3  4  
+
+3  
+
+4  
+
+===========================================================================================
+Problem 1 Part 1
+===========================================================================================
+Appraoch 1:-
+============
+int Process(vector<Interval> v)
+{
+    int t = 0;
+    for(int i = 0; i < v.size(); i++)
+    {
+       if(v[i].end >= v[i+1].start) return 0;
+       t++;
+    }
+    return t;
+}
+int ProcessMaxRequest(Intervals arr[], int n, int i, vector<Interval> v, int &tmax)
+{
+   if(i == n)
+   {
+      //You have vector of intervals
+      int t = Process(v);
+      if(t > tmax) tmax = t;
+      return;
+   }
+   v.push_back(arr[i]); //part of
+   ProcessMaxRequest(arr,n,i+1,v);
+                        //not part of
+   ProcessMaxRequest(arr,n,i+1,v);
+}
+
+Approach 2:-
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+struct Interval
+{
+    int s;
+    int e;
+    int w;
+    Interval(int i,int j)
+    {
+        s = i;
+        e = j;
+        w = 1;
+    }
+};
+
+class compare
+{
+  public:
+  bool operator()(Interval a,Interval b)
+  {
+      if(a.s < b.s) return true;
+      else if(a.s > b.s) return false;
+      return a.e < b.e;
+  }
+};
+int Max(int i, int j)
+{
+   if(i > j) return i;
+   
+   return j;
+}
+
+int MaxBookings(Interval arr[], int n)
+{
+    int max_booking = 0;
+    for(int i = 0; i < n; i++)
+    {
+       
+       Interval curr = arr[i];
+       int w = curr.w;
+       int max = w;
+       
+       for(int j = i-1; j >= 0; --j)
+       {
+           Interval temp = arr[j];
+           if(temp.e < curr.s)
+           {
+               max = Max(max,temp.w + w);
+           }
+       }
+       arr[i].w = max;
+       
+       if(max > max_booking)
+       {
+           max_booking = max;
+       }
+    }
+    return max_booking;
+}
+
+
+int main()
+{
+    Interval arr[10] =  { Interval(4,23),
+                          Interval(1,14),
+                          Interval(15,18),
+                          Interval(13,15),
+                          Interval(19,34),
+                          Interval(11,23),
+                          Interval(3,17),
+                          Interval(6,29),
+                          Interval(4,14),
+                          Interval(2,33)
+                        };
+    sort(arr,arr+10,compare());
+    cout<<endl;
+    cout<<MaxBookings(arr,10)<<endl;
+    cout<<endl;
+    return 0;
+}
+
+
+
+===========================================================================================================
+//Problem 1 Part 2
+============================================================================================================
+Approach 1:- O(n*2^n)
+
+int Process(vector<Interval> v)
+{
+    int t = 0;
+    for(int i = 0; i < v.size(); i++)
+    {
+       if(v[i].end >= v[i+1].start) return 0;
+       
+       t = t + v[i].end - v[i].start + 1;
+    }
+    return t;
+}
+int GetMaxRent(Intervals arr[], int n, int i, vector<Interval> v, int &tmax)
+{
+   if(i == n)
+   {
+      int t = Process(v);
+      if(t > tmax) tmax = t;
+      return;
+   }
+   v.push_back(arr[i]); 
+   GetMaxRent(arr,n,i+1,v);
+   GetMaxRent(arr,n,i+1,v);
+}
+
+Appraoch 2:- O(n^2)
+===================
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+struct Interval
+{
+    int s;
+    int e;
+    int w;
+    Interval(int i,int j)
+    {
+        s = i;
+        e = j;
+        w = e - s + 1;
+    }
+};
+
+class compare
+{
+  public:
+  bool operator()(Interval a,Interval b)
+  {
+      if(a.s < b.s) return true;
+      else if(a.s > b.s) return false;
+      return a.e < b.e;
+  }
+};
+int Max(int i, int j)
+{
+   if(i > j) return i;
+   
+   return j;
+}
+
+int MaxRent(Interval arr[], int n)
+{
+    int max_rent = 0;
+    for(int i = 0; i < n; i++)
+    {
+       
+       Interval curr = arr[i];
+       int w = curr.w;
+       int max = w;
+       
+       for(int j = i-1; j >= 0; --j)
+       {
+           Interval temp = arr[j];
+           if(temp.e < curr.s)
+           {
+               max = Max(max,temp.w + w);
+           }
+       }
+       arr[i].w = max;
+       
+       if(max > max_rent)
+       {
+           max_rent = max;
+       }
+    }
+    return max_rent;
+}
+
+
+int main()
+{
+    Interval arr[10] =  { Interval(4,23),
+                          Interval(1,14),
+                          Interval(15,18),
+                          Interval(13,15),
+                          Interval(19,34),
+                          Interval(11,23),
+                          Interval(3,17),
+                          Interval(6,29),
+                          Interval(4,14),
+                          Interval(2,33)
+                        };
+    sort(arr,arr+10,compare());
+    cout<<endl;
+    cout<<MaxRent(arr,10)<<endl;
+    cout<<endl;
+    return 0;
+}
+
