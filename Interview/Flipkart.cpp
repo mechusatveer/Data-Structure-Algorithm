@@ -1,3 +1,40 @@
+Below problem can be solved as activity selection problem also.
+---------------------------------------------------------------
+greedy approach:-
+sort based on end points
+and include first actvity
+keep adding more activity if last included activity end point <= curr activity start point
+
+LIS approach
+sort based on start point
+allocate linear space
+each activity is 1 size
+keep incrementing it
+
+for(int i = 1; i < n; i++)
+{
+    
+    for(j = 0; j < i; j++)
+    {
+        if(arr[j].end <= arr[i].start && len[j]+1 > len[i])
+        len[i] = len[j]+1;
+        
+    }
+}
+
+but how we can get max rent or mean max productivity we need to think
+
+if we think that above approach work then no 
+
+1-4
+3-100
+
+if we sort based on start point
+we fail here
+
+---------------------------------------------------------------
+
+
 1) You have n requests from different people to book a room
     In a year think days are 0-364
     Req1  3-7 mean i want to book a room from day 3 to day 7
@@ -7,7 +44,7 @@
    Now all request cannot be processed
    We want 
 
-  1) How many max request can be processsed
+  1) How many max request can be processsed(Activity selection problem)
   2) How much max rent we can get it mean how many max days u can keep your room busy
 
   request cannot accepted partial
