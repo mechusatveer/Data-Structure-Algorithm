@@ -35,3 +35,22 @@ Node* PreOrder(int arr[],int &index, int start, int end, int size)
    temp->right = PreOrder(arr,i,end);
 
 }
+
+
+
+Node* PreOrder(int arr[],int &index, int min, int max, int size)
+{
+   if(index >= size)
+    return NULL;
+
+   if(arr[index > min && arr[index] < max)
+   {
+       Node* temp = new Node(arr[index]);
+       index++;
+       temp->left = PreOrder(arr,index,min,arr[index-1],size);
+       temp->right = PreOrder(arr,index,arr[index-1],max,size);
+       return temp;
+   }
+   
+   return NULL;
+}
