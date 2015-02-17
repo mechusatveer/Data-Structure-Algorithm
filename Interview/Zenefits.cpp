@@ -35,7 +35,10 @@ If the sum is > 0 starts from the beginning.
 The major difference compare to ordinary Kadane's algorithm is that we are looking for the 
 biggest negative sum instead of positive. 
 
+At MOST ONE MOVE IT MEAN IT NOT NEEDED WE NEED TO FLIP 1 TIME MAY BE INITIAL BIT STRING HAVE MORE NO OF 1
+THAN WE GOT FROM KADANE
 
+UPDATIN SOLUTION BASED ON THIS ALSO
 public static void flipBits(int a[], int N)
 {
 	int maxDiff = 0;
@@ -44,6 +47,8 @@ public static void flipBits(int a[], int N)
 
 	int currentDiff = 0;
 	int currentStart = 0;
+	
+	int no_of_one = 0;
 
 	for (int i = 0; i < N; i++)
 	{
@@ -54,6 +59,7 @@ public static void flipBits(int a[], int N)
 	    else
 	    {
 		    	currentDiff += 1;
+		    	no_of_one++;
 	    }
 	    if (currentDiff < maxDiff)
 	    {
@@ -75,5 +81,7 @@ public static void flipBits(int a[], int N)
   {
      if(a[i] == 0) c++;
   }
+  
+  return Max(c,no_of_one);
 }
 
